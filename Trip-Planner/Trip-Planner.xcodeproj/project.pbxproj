@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4633B2AC2B0CE07600F4F14E /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4633B2AB2B0CE07600F4F14E /* TestView.swift */; };
+		4633B2AE2B0CE64200F4F14E /* NaviTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4633B2AD2B0CE64200F4F14E /* NaviTestView.swift */; };
+		4633B2B02B0CE70200F4F14E /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4633B2AF2B0CE70200F4F14E /* SplashView.swift */; };
 		46A5DF512B0B2CA9008B9699 /* Trip_PlannerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A5DF502B0B2CA9008B9699 /* Trip_PlannerApp.swift */; };
 		46A5DF532B0B2CA9008B9699 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A5DF522B0B2CA9008B9699 /* ContentView.swift */; };
 		46A5DF552B0B2CAA008B9699 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46A5DF542B0B2CAA008B9699 /* Assets.xcassets */; };
@@ -15,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4633B2AB2B0CE07600F4F14E /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		4633B2AD2B0CE64200F4F14E /* NaviTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaviTestView.swift; sourceTree = "<group>"; };
+		4633B2AF2B0CE70200F4F14E /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		46A5DF4D2B0B2CA9008B9699 /* Trip-Planner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Trip-Planner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		46A5DF502B0B2CA9008B9699 /* Trip_PlannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip_PlannerApp.swift; sourceTree = "<group>"; };
 		46A5DF522B0B2CA9008B9699 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -55,6 +61,9 @@
 			children = (
 				46A5DF502B0B2CA9008B9699 /* Trip_PlannerApp.swift */,
 				46A5DF522B0B2CA9008B9699 /* ContentView.swift */,
+				4633B2AF2B0CE70200F4F14E /* SplashView.swift */,
+				4633B2AD2B0CE64200F4F14E /* NaviTestView.swift */,
+				4633B2AB2B0CE07600F4F14E /* TestView.swift */,
 				46A5DF5E2B0B39F7008B9699 /* MapView.swift */,
 				46A5DF542B0B2CAA008B9699 /* Assets.xcassets */,
 				46A5DF562B0B2CAA008B9699 /* Preview Content */,
@@ -141,8 +150,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				46A5DF532B0B2CA9008B9699 /* ContentView.swift in Sources */,
+				4633B2AC2B0CE07600F4F14E /* TestView.swift in Sources */,
+				4633B2AE2B0CE64200F4F14E /* NaviTestView.swift in Sources */,
 				46A5DF5F2B0B39F7008B9699 /* MapView.swift in Sources */,
 				46A5DF512B0B2CA9008B9699 /* Trip_PlannerApp.swift in Sources */,
+				4633B2B02B0CE70200F4F14E /* SplashView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
