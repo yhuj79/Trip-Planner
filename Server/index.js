@@ -30,15 +30,39 @@ const connection = mysql.createConnection({
 connection.connect();
 
 app.get("/api/package", (req, res) => {
-  connection.query("SELECT * FROM TripPlanner.package", (err, rows, fields) => {
-    res.send({ results: rows });
-  });
+  connection.query(
+    "SELECT * FROM TripPlanner.package ORDER BY RAND()",
+    (err, rows, fields) => {
+      res.send({ results: rows });
+    }
+  );
 });
 
 app.get("/api/package/wish", (req, res) => {
-  connection.query("SELECT * FROM TripPlanner.package WHERE wish = 1", (err, rows, fields) => {
-    res.send({ results: rows });
-  });
+  connection.query(
+    "SELECT * FROM TripPlanner.package WHERE wish = 1",
+    (err, rows, fields) => {
+      res.send({ results: rows });
+    }
+  );
+});
+
+app.get("/api/tourist_spot", (req, res) => {
+  connection.query(
+    "SELECT * FROM TripPlanner.tourist_spot ORDER BY RAND()",
+    (err, rows, fields) => {
+      res.send({ results: rows });
+    }
+  );
+});
+
+app.get("/api/tourist_spot/wish", (req, res) => {
+  connection.query(
+    "SELECT * FROM TripPlanner.tourist_spot WHERE wish = 1",
+    (err, rows, fields) => {
+      res.send({ results: rows });
+    }
+  );
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

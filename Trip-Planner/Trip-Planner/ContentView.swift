@@ -24,17 +24,17 @@ struct ContentView: View {
         ZStack {
             if showMainView {
                 TabView {
-                    PackageView()
+                    ExploreView()
                         .tabItem {
                             Image(systemName: "globe")
                             Text("탐색")
                         }
-                    WishView()
+                    WishListView()
                         .tabItem {
                             Image(systemName: "heart")
                             Text("위시리스트")
                         }
-                    MapView()
+                    NaviTestView()
                         .tabItem {
                             Image(systemName: "calendar")
                             Text("일정")

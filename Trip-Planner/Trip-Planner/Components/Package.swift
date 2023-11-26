@@ -17,53 +17,57 @@ struct Result: Codable, Identifiable {
     let wish: Int
 }
 
-struct PackageView: View {
+struct Package: View {
     @State private var results = [Result]()
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                LazyVGrid(columns: Array(repeating: GridItem(), count: 2), spacing: 4) {
-                    ForEach(results) { package in
-                        NavigationLink(destination: PackageDetailView(package: package)) {
-                            ZStack(alignment: .topLeading) {
-                                RemoteImage(url: package.image_url)
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 180, height: 180)
-                                    .clipped()
-                                VStack(alignment: .leading) {
-                                    Text(truncateName(package.name))
-                                        .font(.system(size: 21))
-                                        .bold()
-                                        .foregroundColor(Color.white)
-                                    Text(package.date_range)
-                                        .font(.headline)
-                                        .bold()
-                                        .foregroundColor(Color.white)
-                                }.padding(10)
-                                HStack {
+        VStack(alignment: .leading) {
+            Text("추천 여행지")
+                .foregroundColor(Color.black)
+                .font(.system(size: 22))
+                .bold()
+                .padding(.top, 10)
+                .padding(.leading, 15)
+                .padding(.bottom, -7)
+            LazyVGrid(columns: Array(repeating: GridItem(), count: 2), spacing: 4) {
+                ForEach(results) { package in
+                    NavigationLink(destination: PackageDetail(package: package)) {
+                        ZStack(alignment: .topLeading) {
+                            PackageImage(url: package.image_url)
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 180, height: 138)
+                                .clipped()
+                            VStack(alignment: .leading) {
+                                Text(truncateName(package.name))
+                                    .font(.system(size: 20))
+                                    .bold()
+                                    .foregroundColor(Color.white)
+                                Text(package.date_range)
+                                    .font(.system(size: 16))
+                                    .bold()
+                                    .foregroundColor(Color.white)
+                            }.padding(10)
+                            HStack {
+                                Spacer()
+                                VStack {
                                     Spacer()
-                                    VStack {
-                                        Spacer()
-                                        Text("₩ \(package.price)")
-                                            .font(.subheadline)
-                                            .bold()
-                                            .foregroundColor(Color.white)
-                                    }
-                                }.padding(10)
-                            }
-                            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-                            .padding(4)
+                                    Text("₩ \(package.price)")
+                                        .font(.subheadline)
+                                        .bold()
+                                        .foregroundColor(Color.white)
+                                }
+                            }.padding(10)
                         }
+                        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                        .padding(4)
                     }
                 }
-                .padding(9)
             }
-            .navigationTitle("추천 여행지")
-        }
-        .onAppear {
-            Task {
-                await loadData()
+            .padding(9)
+            .onAppear {
+                Task {
+                    await loadData()
+                }
             }
         }
     }
@@ -91,7 +95,7 @@ struct PackageView: View {
     }
 }
 
-struct RemoteImage: View {
+struct PackageImage: View {
     private let url: String
     
     init(url: String) {
@@ -119,5 +123,5 @@ func truncateName(_ name: String) -> String {
 }
 
 #Preview {
-    PackageView()
+    Package()
 }

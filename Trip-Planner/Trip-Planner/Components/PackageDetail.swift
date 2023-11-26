@@ -1,13 +1,13 @@
 import SwiftUI
 
-struct PackageDetailView: View {
+struct PackageDetail: View {
     var package: Result
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack {
-                    MainImage(url: package.image_url)
+                    PackageDetailImage(url: package.image_url)
                         .aspectRatio(contentMode: .fill)
                         .frame(height: 250)
                         .clipped()
@@ -52,7 +52,7 @@ struct PackageDetailView: View {
                             .frame(width: 30)
                             .padding(10)
                         
-                        Text(package.country.capitalized)
+                        Text(package.country)
                             .font(.system(size: 18))
                             .bold()
                             .padding(10)
@@ -91,13 +91,13 @@ struct PackageDetailView: View {
                 .foregroundColor(Color(hex: 0x5D5D5D))
                 .padding(15)
             }
-            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarTitle("패키지 정보", displayMode: .inline)
         }
     }
 }
 
 
-struct MainImage: View {
+struct PackageDetailImage: View {
     private let url: String
     
     init(url: String) {
