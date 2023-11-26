@@ -34,17 +34,17 @@ struct ContentView: View {
                             Image(systemName: "heart")
                             Text("위시리스트")
                         }
-                    NaviTestView()
+                    Text("")
                         .tabItem {
                             Image(systemName: "calendar")
                             Text("일정")
                         }
-                    NaviTestView()
+                    Text("")
                         .tabItem {
                             Image(systemName: "character.bubble")
                             Text("AI 챗")
                         }
-                    NaviTestView()
+                    Text("")
                         .tabItem {
                             Image(systemName: "gearshape")
                             Text("설정")
