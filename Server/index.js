@@ -20,17 +20,17 @@ app.use(
 const data = fs.readFileSync("./database.json");
 const conf = JSON.parse(data);
 
-const connection = mysql.createConnection({
+const db = mysql.createConnection({
   host: conf.host,
   user: conf.user,
   password: conf.password,
   port: conf.port,
   database: conf.database,
 });
-connection.connect();
+db.connect();
 
 app.get("/api/package", (req, res) => {
-  connection.query(
+  db.query(
     "SELECT * FROM TripPlanner.package ORDER BY RAND()",
     (err, rows, fields) => {
       res.send({ results: rows });
@@ -39,7 +39,7 @@ app.get("/api/package", (req, res) => {
 });
 
 app.get("/api/package/wish", (req, res) => {
-  connection.query(
+  db.query(
     "SELECT * FROM TripPlanner.package WHERE wish = 1",
     (err, rows, fields) => {
       res.send({ results: rows });
@@ -47,8 +47,17 @@ app.get("/api/package/wish", (req, res) => {
   );
 });
 
+app.get("/api/package/wish/update/:wish/:id", (req, res) => {
+  db.query(
+    `UPDATE TripPlanner.package SET wish = ${req.params.wish} WHERE id = ${req.params.id}`,
+    (err, rows, fields) => {
+      res.send({ results: rows });
+    }
+  );
+});
+
 app.get("/api/tourist_spot", (req, res) => {
-  connection.query(
+  db.query(
     "SELECT * FROM TripPlanner.tourist_spot ORDER BY RAND()",
     (err, rows, fields) => {
       res.send({ results: rows });
@@ -57,8 +66,17 @@ app.get("/api/tourist_spot", (req, res) => {
 });
 
 app.get("/api/tourist_spot/wish", (req, res) => {
-  connection.query(
+  db.query(
     "SELECT * FROM TripPlanner.tourist_spot WHERE wish = 1",
+    (err, rows, fields) => {
+      res.send({ results: rows });
+    }
+  );
+});
+
+app.get("/api/tourist_spot/wish/update/:wish/:id", (req, res) => {
+  db.query(
+    `UPDATE TripPlanner.tourist_spot SET wish = ${req.params.wish} WHERE id = ${req.params.id}`,
     (err, rows, fields) => {
       res.send({ results: rows });
     }

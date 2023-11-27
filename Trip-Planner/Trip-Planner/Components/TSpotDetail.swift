@@ -3,31 +3,15 @@ import MapKit
 
 struct TSpotDetail: View {
     var spot: TSpotResult
+    @State private var showAlert = false
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                ZStack {
-                    TSpotImage(url: spot.image_url)
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 250)
-                        .clipped()
-                    VStack {
-                        HStack {
-                            Spacer()
-                            Button(action: {}) {
-                                Image(systemName: spot.wish != 0 ? "star.fill" : "star")
-                                    .font(.system(size: 25))
-                                    .foregroundColor(spot.wish != 0 ? .yellow : .gray)
-                                    .padding(7)
-                            }
-                            .background(Color.white)
-                            .clipShape(Circle())
-                            .padding(7)
-                        }
-                        Spacer()
-                    }
-                }
+                TSpotImage(url: spot.image_url)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 250)
+                    .clipped()
                 VStack(alignment: .leading) {
                     Text(spot.name)
                         .bold()
@@ -83,6 +67,24 @@ struct TSpotDetail: View {
                 Map(initialPosition: .region(region))
                     .frame(height: 250)
             }
+            .toolbar {
+                ToolbarItem {
+                    Menu {
+                        Section("\(spot.name) (\(spot.intl_name))") {
+                            Button {
+                                updateWishTSpot()
+                            } label: {
+                                Label("위시리스트 \(spot.wish != 0 ? "삭제" : "등록")", systemImage: "\(spot.wish != 0 ? "heart.fill" : "heart")")
+                            }
+                        }
+                    } label: {
+                        Label("Menu", systemImage: "ellipsis.circle")
+                    }
+                }
+            }
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("위시리스트"), message: Text("\(spot.wish != 0 ? "삭제가 완료되었습니다." : "등록이 완료되었습니다.")"))
+            }
             .navigationBarTitle("관광지 정보", displayMode: .inline)
         }
     }
@@ -93,6 +95,25 @@ struct TSpotDetail: View {
             span: MKCoordinateSpan(latitudeDelta: 0.007, longitudeDelta: 0.007)
         )
     }
+    
+    func updateWishTSpot() {
+        Task {
+            do {
+                guard let url = URL(string: "http://localhost:5500/api/tourist_spot/wish/update/\(spot.wish == 1 ? 0 : 1)/\(spot.id)") else {
+                    print("Invalid URL")
+                    return
+                }
+                
+                let (_, meta) = try await URLSession.shared.data(from: url)
+                print(meta)
+                showAlert.toggle()
+                
+            } catch {
+                print("Invalid data")
+            }
+        }
+    }
+    
 }
 
 struct TSpotImage: View {

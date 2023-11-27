@@ -2,31 +2,15 @@ import SwiftUI
 
 struct PackageDetail: View {
     var package: Result
+    @State private var showAlert = false
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                ZStack {
-                    PackageDetailImage(url: package.image_url)
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 250)
-                        .clipped()
-                    VStack {
-                        HStack {
-                            Spacer()
-                            Button(action: {}) {
-                                Image(systemName: package.wish != 0 ? "star.fill" : "star")
-                                    .font(.system(size: 25))
-                                    .foregroundColor(package.wish != 0 ? .yellow : .gray)
-                                    .padding(7)
-                            }
-                            .background(Color.white)
-                            .clipShape(Circle())
-                            .padding(7)
-                        }
-                        Spacer()
-                    }
-                }
+                PackageDetailImage(url: package.image_url)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 250)
+                    .clipped()
                 HStack {
                     Text(package.name)
                         .bold()
@@ -91,11 +75,46 @@ struct PackageDetail: View {
                 .foregroundColor(Color(hex: 0x5D5D5D))
                 .padding(15)
             }
+            .toolbar {
+                ToolbarItem {
+                    Menu {
+                        Section("\(package.name)") {
+                            Button {
+                                updateWishPackage()
+                            } label: {
+                                Label("위시리스트 \(package.wish != 0 ? "삭제" : "등록")", systemImage: "\(package.wish != 0 ? "heart.fill" : "heart")")
+                            }
+                        }
+                    } label: {
+                        Label("Menu", systemImage: "ellipsis.circle")
+                    }
+                }
+            }
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("위시리스트"), message: Text("\(package.wish != 0 ? "삭제가 완료되었습니다." : "등록이 완료되었습니다.")"))
+            }
             .navigationBarTitle("패키지 정보", displayMode: .inline)
         }
     }
+    
+    func updateWishPackage() {
+        Task {
+            do {
+                guard let url = URL(string: "http://localhost:5500/api/package/wish/update/\(package.wish == 1 ? 0 : 1)/\(package.id)") else {
+                    print("Invalid URL")
+                    return
+                }
+                
+                let (_, meta) = try await URLSession.shared.data(from: url)
+                print(meta)
+                showAlert.toggle()
+                
+            } catch {
+                print("Invalid data")
+            }
+        }
+    }
 }
-
 
 struct PackageDetailImage: View {
     private let url: String
