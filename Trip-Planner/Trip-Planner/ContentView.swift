@@ -14,10 +14,13 @@ struct ContentView: View {
     @State private var showMainView = false
     
     init() {
-        let appearance = UITabBarAppearance()
-        appearance.backgroundColor = UIColor(Color(hex: 0xF7F7F7))
-        UITabBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor(Color(hex: 0xF73E6C))]
+        let appearance = UINavigationBarAppearance()
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor(Color(hex: 0xF73E6C))]
+        appearance.backgroundColor = UIColor(Color(hex: 0xFFFFFF))
+        appearance.shadowColor = .clear
+        
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
     
     var body: some View {

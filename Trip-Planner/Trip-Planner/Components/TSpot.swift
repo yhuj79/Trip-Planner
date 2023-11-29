@@ -21,41 +21,66 @@ struct TSpot: View {
     @State private var results = [TSpotResult]()
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("주요 관광지")
-                .foregroundColor(Color.black)
-                .font(.system(size: 22))
-                .bold()
+        LazyVStack(alignment: .leading) {
+            HStack {
+                Text("주요 관광지")
+                    .foregroundColor(Color.black)
+                    .font(.system(size: 22))
+                    .bold()
+                    .padding(.top, 10)
+                    .padding(.leading, 15)
+                    .padding(.bottom, -5)
+                Spacer()
+                NavigationLink(destination: TSpotFull(results: results)) {
+                    Text("더보기")
+                        .font(.system(size: 18))
+                        .padding(.trailing, -3)
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 18))
+                }
                 .padding(.top, 10)
-                .padding(.leading, 15)
-                .padding(.bottom, -7)
+                .padding(.trailing, 15)
+                .padding(.bottom, -5)
+            }
             LazyVGrid(columns: Array(repeating: GridItem(), count: 2), spacing: 4) {
-                ForEach(results) { spot in
+                ForEach(results.prefix(4)) { spot in
                     NavigationLink(destination: TSpotDetail(spot: spot)) {
                         ZStack(alignment: .topLeading) {
-                            RemoteImage(url: spot.image_url)
+                            AsyncImage(url: spot.image_url)
                                 .aspectRatio(contentMode: .fill)
-                                .frame(width: 180, height: 138)
+                                .frame(width: 180, height: 135)
                                 .clipped()
-                            VStack(alignment: .leading) {
-                                Text(spot.name)
-                                    .font(.system(size: 20))
-                                    .bold()
-                                    .foregroundColor(Color.white)
-                            }.padding(10)
-                            HStack {
-                                Spacer()
-                                VStack {
-                                    Spacer()
-                                    Text("\(spot.country) \(spot.city_name)")
-                                        .font(.subheadline)
-                                        .bold()
-                                        .foregroundColor(Color.white)
-                                }
-                            }.padding(10)
+                                .overlay (
+                                    Rectangle()
+                                        .fill(Color.black.opacity(0.25))
+                                )
+                                .overlay(
+                                    VStack(alignment: .leading) {
+                                        Text(spot.name)
+                                            .font(.system(size: 20))
+                                            .bold()
+                                            .foregroundColor(Color.white)
+                                            .shadow(color: .black, radius: 0.7, x: 0.5, y: 0.5)
+                                    }.padding(10),
+                                    alignment: .topLeading
+                                )
+                                .overlay(
+                                    HStack {
+                                        Spacer()
+                                        VStack {
+                                            Spacer()
+                                            Text("\(spot.country) \(spot.city_name)")
+                                                .font(.subheadline)
+                                                .bold()
+                                                .foregroundColor(Color.white)
+                                                .shadow(color: .black, radius: 0.7, x: 0.5, y: 0.5)
+                                        }
+                                    }.padding(10),
+                                    alignment: .bottomTrailing
+                                )
+                                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                                .padding(4)
                         }
-                        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-                        .padding(4)
                     }
                 }
             }
@@ -89,28 +114,10 @@ struct TSpot: View {
             print("Invalid data")
         }
     }
-    
-    struct RemoteImage: View {
-        private let url: String
-        
-        init(url: String) {
-            self.url = url
-        }
-        
-        var body: some View {
-            if let imageUrl = URL(string: url), let imageData = try? Data(contentsOf: imageUrl), let uiImage = UIImage(data: imageData) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                Rectangle()
-                    .fill(Color.black.opacity(0.25))
-            } else {
-                Image(systemName: "photo")
-                    .resizable()
-            }
-        }
-    }
 }
 
-#Preview {
-    TSpot()
+struct TSpot_Previews: PreviewProvider {
+    static var previews: some View {
+        TSpot()
+    }
 }

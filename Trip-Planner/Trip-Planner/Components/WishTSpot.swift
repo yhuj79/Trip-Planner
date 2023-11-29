@@ -21,7 +21,7 @@ struct WishTSpot: View {
     @State private var results = [TSpotResult]()
     
     var body: some View {
-        VStack(alignment: .leading) {
+        LazyVStack(alignment: .leading) {
             Text("관광지")
                 .foregroundColor(Color.black)
                 .font(.system(size: 22))
@@ -33,9 +33,14 @@ struct WishTSpot: View {
                 ForEach(results) { spot in
                     NavigationLink(destination: TSpotDetail(spot: spot)) {
                         HStack {
-                            WishTSpotImage(url: spot.image_url)
+                            AsyncImage(url: spot.image_url)
                                 .frame(width: 50, height: 50)
                                 .cornerRadius(8)
+                                .overlay (
+                                    Rectangle()
+                                        .fill(Color.black.opacity(0.05))
+                                        .cornerRadius(8)
+                                )
                             VStack(alignment: .leading) {
                                 Text(spot.name)
                                     .font(.system(size: 14))
@@ -86,24 +91,6 @@ struct WishTSpot: View {
             }
         } catch {
             print("Invalid data")
-        }
-    }
-}
-
-struct WishTSpotImage: View {
-    private let url: String
-    
-    init(url: String) {
-        self.url = url
-    }
-    
-    var body: some View {
-        if let imageUrl = URL(string: url), let imageData = try? Data(contentsOf: imageUrl), let uiImage = UIImage(data: imageData) {
-            Image(uiImage: uiImage)
-                .resizable()
-        } else {
-            Image(systemName: "photo")
-                .resizable()
         }
     }
 }

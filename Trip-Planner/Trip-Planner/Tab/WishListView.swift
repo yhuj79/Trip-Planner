@@ -6,6 +6,7 @@ struct WishListView: View {
             ScrollView {
                 WishPackage()
                 WishTSpot()
+                WishAccommodation()
             }
             .navigationBarTitle("위시리스트")
         }

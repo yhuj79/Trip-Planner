@@ -7,11 +7,15 @@ struct TSpotDetail: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-                TSpotImage(url: spot.image_url)
+            LazyVStack(alignment: .leading, spacing: 0) {
+                AsyncImage(url: spot.image_url)
                     .aspectRatio(contentMode: .fill)
-                    .frame(height: 250)
+                    .frame(width: UIScreen.main.bounds.width, height: 250)
                     .clipped()
+                    .overlay (
+                        Rectangle()
+                            .fill(Color.black.opacity(0.05))
+                    )
                 VStack(alignment: .leading) {
                     Text(spot.name)
                         .bold()
@@ -114,22 +118,4 @@ struct TSpotDetail: View {
         }
     }
     
-}
-
-struct TSpotImage: View {
-    private let url: String
-    
-    init(url: String) {
-        self.url = url
-    }
-    
-    var body: some View {
-        if let imageUrl = URL(string: url), let imageData = try? Data(contentsOf: imageUrl), let uiImage = UIImage(data: imageData) {
-            Image(uiImage: uiImage)
-                .resizable()
-        } else {
-            Image(systemName: "photo")
-                .resizable()
-        }
-    }
 }

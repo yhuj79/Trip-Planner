@@ -6,6 +6,7 @@ struct ExploreView: View {
             ScrollView {
                 Package()
                 TSpot()
+                Accommodation()
             }
             .navigationBarTitle("탐색")
         }

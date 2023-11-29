@@ -1,16 +1,20 @@
 import SwiftUI
 
 struct PackageDetail: View {
-    var package: Result
+    var package: PackageResult
     @State private var showAlert = false
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-                PackageDetailImage(url: package.image_url)
+            LazyVStack(alignment: .leading, spacing: 0) {
+                AsyncImage(url: package.image_url)
                     .aspectRatio(contentMode: .fill)
-                    .frame(height: 250)
+                    .frame(width: UIScreen.main.bounds.width, height: 250)
                     .clipped()
+                    .overlay (
+                        Rectangle()
+                            .fill(Color.black.opacity(0.05))
+                    )
                 HStack {
                     Text(package.name)
                         .bold()
@@ -112,24 +116,6 @@ struct PackageDetail: View {
             } catch {
                 print("Invalid data")
             }
-        }
-    }
-}
-
-struct PackageDetailImage: View {
-    private let url: String
-    
-    init(url: String) {
-        self.url = url
-    }
-    
-    var body: some View {
-        if let imageUrl = URL(string: url), let imageData = try? Data(contentsOf: imageUrl), let uiImage = UIImage(data: imageData) {
-            Image(uiImage: uiImage)
-                .resizable()
-        } else {
-            Image(systemName: "photo")
-                .resizable()
         }
     }
 }

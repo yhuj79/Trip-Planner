@@ -83,4 +83,31 @@ app.get("/api/tourist_spot/wish/update/:wish/:id", (req, res) => {
   );
 });
 
+app.get("/api/accommodation", (req, res) => {
+  db.query(
+    "SELECT * FROM TripPlanner.accommodation ORDER BY RAND()",
+    (err, rows, fields) => {
+      res.send({ results: rows });
+    }
+  );
+});
+
+app.get("/api/accommodation/wish", (req, res) => {
+  db.query(
+    "SELECT * FROM TripPlanner.accommodation WHERE wish = 1",
+    (err, rows, fields) => {
+      res.send({ results: rows });
+    }
+  );
+});
+
+app.get("/api/accommodation/wish/update/:wish/:id", (req, res) => {
+  db.query(
+    `UPDATE TripPlanner.accommodation SET wish = ${req.params.wish} WHERE id = ${req.params.id}`,
+    (err, rows, fields) => {
+      res.send({ results: rows });
+    }
+  );
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`));

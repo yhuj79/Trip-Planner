@@ -1,28 +1,28 @@
 import SwiftUI
 
-struct WishPackageResponse: Codable {
-    var results: [PackageResult]
+struct WishAccommodationResponse: Codable {
+    var results: [AccommodationResult]
 }
 
-struct WishPackageResult: Codable, Identifiable {
+struct WishAccommodationResult: Codable, Identifiable {
     let id: Int
     let name: String
+    let intl_name: String
+    let latitude: Double
+    let longitude: Double
     let country: String
-    let price: Int
-    let category: String
-    let date_range: String
-    let link: String
+    let city_name: String
     let image_url: String
     let description: String
     let wish: Int
 }
 
-struct WishPackage: View {
-    @State private var results = [PackageResult]()
+struct WishAccommodation: View {
+    @State private var results = [AccommodationResult]()
     
     var body: some View {
         LazyVStack(alignment: .leading) {
-            Text("패키지")
+            Text("숙소")
                 .foregroundColor(Color.black)
                 .font(.system(size: 22))
                 .bold()
@@ -30,10 +30,10 @@ struct WishPackage: View {
                 .padding(.leading, 18)
                 .padding(.bottom, -5)
             LazyVGrid(columns: Array(repeating: GridItem(), count: 1), spacing: 4) {
-                ForEach(results) { package in
-                    NavigationLink(destination: PackageDetail(package: package)) {
+                ForEach(results) { accommodation in
+                    NavigationLink(destination: AccommodationDetail(accommodation: accommodation)) {
                         HStack {
-                            AsyncImage(url: package.image_url)
+                            AsyncImage(url: accommodation.image_url)
                                 .frame(width: 50, height: 50)
                                 .cornerRadius(8)
                                 .overlay (
@@ -42,15 +42,15 @@ struct WishPackage: View {
                                         .cornerRadius(8)
                                 )
                             VStack(alignment: .leading) {
-                                Text(package.name)
+                                Text(accommodation.name)
                                     .font(.system(size: 14))
                                     .bold()
                                     .padding(.bottom, 1)
-                                Text(package.date_range)
+                                Text(accommodation.intl_name)
                                     .font(.system(size: 12))
                             }
                             Spacer()
-                            Text("₩ \(package.price)")
+                            Text("\(accommodation.country) \(accommodation.city_name)")
                                 .font(.system(size: 12))
                         }
                         .padding(7)
@@ -73,7 +73,7 @@ struct WishPackage: View {
     }
     
     func loadData() async {
-        guard let url = URL(string: "http://localhost:5500/api/package/wish") else {
+        guard let url = URL(string: "http://localhost:5500/api/accommodation/wish") else {
             print("Invalid URL")
             return
         }
@@ -82,7 +82,7 @@ struct WishPackage: View {
             let (data, meta) = try await URLSession.shared.data(from: url)
             print(meta)
             do {
-                let decodedResponse = try JSONDecoder().decode(WishPackageResponse.self, from: data)
+                let decodedResponse = try JSONDecoder().decode(WishAccommodationResponse.self, from: data)
                 DispatchQueue.main.async {
                     self.results = decodedResponse.results
                 }
@@ -96,5 +96,5 @@ struct WishPackage: View {
 }
 
 #Preview {
-    WishPackage()
+    WishAccommodation()
 }

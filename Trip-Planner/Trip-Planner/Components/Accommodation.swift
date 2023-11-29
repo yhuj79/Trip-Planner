@@ -1,29 +1,32 @@
 import SwiftUI
 
-struct PackageResponse: Codable {
-    var results: [PackageResult]
+struct AccommodationResponse: Codable {
+    var results: [AccommodationResult]
 }
 
-struct PackageResult: Codable, Identifiable {
+struct AccommodationResult: Codable, Identifiable {
     let id: Int
     let name: String
-    let country: String
+    let intl_name: String
+    let latitude: Double
+    let longitude: Double
     let price: Int
-    let category: String
-    let date_range: String
+    let score: Double
+    let country: String
+    let city_name: String
     let link: String
     let image_url: String
     let description: String
     let wish: Int
 }
 
-struct Package: View {
-    @State private var results = [PackageResult]()
+struct Accommodation: View {
+    @State private var results = [AccommodationResult]()
     
     var body: some View {
         LazyVStack(alignment: .leading) {
             HStack {
-                Text("추천 여행지")
+                Text("추천 숙소")
                     .foregroundColor(Color.black)
                     .font(.system(size: 22))
                     .bold()
@@ -31,7 +34,7 @@ struct Package: View {
                     .padding(.leading, 15)
                     .padding(.bottom, -5)
                 Spacer()
-                NavigationLink(destination: PackageFull(results: results)) {
+                NavigationLink(destination: AccommodationFull(results: results)) {
                     Text("더보기")
                         .font(.system(size: 18))
                         .padding(.trailing, -3)
@@ -43,45 +46,55 @@ struct Package: View {
                 .padding(.bottom, -5)
             }
             LazyVGrid(columns: Array(repeating: GridItem(), count: 2), spacing: 4) {
-                ForEach(results.prefix(4)) { package in
-                    NavigationLink(destination: PackageDetail(package: package)) {
+                ForEach(results.prefix(4)) { accommodation in
+                    NavigationLink(destination: AccommodationDetail(accommodation: accommodation)) {
                         ZStack(alignment: .topLeading) {
-                            AsyncImage(url: package.image_url)
+                            AsyncImage(url: accommodation.image_url)
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 180, height: 135)
                                 .clipped()
                                 .overlay (
                                     Rectangle()
-                                        .fill(Color.black.opacity(0.25))
+                                        .fill(Color.black.opacity(0.3))
                                 )
                                 .overlay(
                                     VStack(alignment: .leading) {
-                                        Text(package.country)
-                                            .font(.system(size: 20))
+                                        Text(accommodation.name)
+                                            .font(.system(size: 17))
                                             .bold()
                                             .foregroundColor(Color.white)
                                             .shadow(color: .black, radius: 0.7, x: 0.5, y: 0.5)
-                                        Text(package.date_range)
-                                            .font(.system(size: 16))
+                                        Text("\(accommodation.country) \(accommodation.city_name)")
+                                            .font(.subheadline)
                                             .bold()
                                             .foregroundColor(Color.white)
                                             .shadow(color: .black, radius: 0.7, x: 0.5, y: 0.5)
-                                    }.padding(10),
+                                    }
+                                        .padding(10),
                                     alignment: .topLeading
                                 )
                                 .overlay(
                                     HStack {
-                                        Spacer()
-                                        VStack {
-                                            Spacer()
-                                            Text("₩ \(package.price)")
-                                                .font(.subheadline)
+                                        HStack {
+                                            Image(systemName: "star.fill")
+                                                .font(.system(size: 12))
                                                 .bold()
-                                                .foregroundColor(Color.white)
+                                                .foregroundColor(Color(hex: 0xFFE400))
+                                            Text(String(format: "%.1f", accommodation.score))
                                                 .shadow(color: .black, radius: 0.7, x: 0.5, y: 0.5)
+                                                .font(.system(size: 14))
+                                                .bold()
+                                                .foregroundColor(Color(hex: 0xFFE400))
+                                                .padding(.leading, -7)
                                         }
-                                    }.padding(10),
-                                    alignment: .bottomTrailing
+                                        Spacer()
+                                        Text("₩ \(accommodation.price)")
+                                            .font(.subheadline)
+                                            .bold()
+                                            .foregroundColor(Color.white)
+                                            .shadow(color: .black, radius: 0.7, x: 0.5, y: 0.5)
+                                    }
+                                        .padding(10), alignment: .bottomTrailing
                                 )
                                 .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
                                 .padding(4)
@@ -99,7 +112,7 @@ struct Package: View {
     }
     
     func loadData() async {
-        guard let url = URL(string: "http://localhost:5500/api/package") else {
+        guard let url = URL(string: "http://localhost:5500/api/accommodation") else {
             print("Invalid URL")
             return
         }
@@ -108,7 +121,7 @@ struct Package: View {
             let (data, meta) = try await URLSession.shared.data(from: url)
             print(meta)
             do {
-                let decodedResponse = try JSONDecoder().decode(PackageResponse.self, from: data)
+                let decodedResponse = try JSONDecoder().decode(AccommodationResponse.self, from: data)
                 DispatchQueue.main.async {
                     self.results = decodedResponse.results
                 }
@@ -121,8 +134,8 @@ struct Package: View {
     }
 }
 
-struct Package_Previews: PreviewProvider {
+struct Accommodation_Previews: PreviewProvider {
     static var previews: some View {
-        Package()
+        Accommodation()
     }
 }
