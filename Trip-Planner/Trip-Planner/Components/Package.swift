@@ -27,18 +27,20 @@ struct Package: View {
                     .foregroundColor(Color.black)
                     .font(.system(size: 22))
                     .bold()
-                    .padding(.top, 10)
+                    .padding(.top, 18)
                     .padding(.leading, 15)
                     .padding(.bottom, -5)
                 Spacer()
                 NavigationLink(destination: PackageFull(results: results)) {
-                    Text("더보기")
+                    Text("more")
                         .font(.system(size: 18))
                         .padding(.trailing, -3)
                     Image(systemName: "chevron.right")
                         .font(.system(size: 18))
+                        .padding(.top, 2)
+                        .padding(.leading, -1)
                 }
-                .padding(.top, 10)
+                .padding(.top, 18)
                 .padding(.trailing, 15)
                 .padding(.bottom, -5)
             }

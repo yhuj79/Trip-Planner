@@ -74,6 +74,24 @@ app.get("/api/tourist_spot/wish", (req, res) => {
   );
 });
 
+app.get("/api/accommodation/identification/:id", (req, res) => {
+  db.query(
+    `SELECT * FROM TripPlanner.accommodation WHERE id = ${req.params.id}`,
+    (err, rows, fields) => {
+      res.send({ results: rows });
+    }
+  );
+});
+
+app.get("/api/tourist_spot/identification/:id", (req, res) => {
+  db.query(
+    `SELECT * FROM TripPlanner.tourist_spot WHERE id = ${req.params.id}`,
+    (err, rows, fields) => {
+      res.send({ results: rows });
+    }
+  );
+});
+
 app.get("/api/tourist_spot/wish/update/:wish/:id", (req, res) => {
   db.query(
     `UPDATE TripPlanner.tourist_spot SET wish = ${req.params.wish} WHERE id = ${req.params.id}`,
@@ -104,6 +122,28 @@ app.get("/api/accommodation/wish", (req, res) => {
 app.get("/api/accommodation/wish/update/:wish/:id", (req, res) => {
   db.query(
     `UPDATE TripPlanner.accommodation SET wish = ${req.params.wish} WHERE id = ${req.params.id}`,
+    (err, rows, fields) => {
+      res.send({ results: rows });
+    }
+  );
+});
+
+app.get("/api/plan", (req, res) => {
+  db.query("SELECT * FROM TripPlanner.plan", (err, rows, fields) => {
+    res.send({ results: rows });
+  });
+});
+
+app.get("/api/plan/insert/:name/:accommodation/:spot_list", (req, res) => {
+  const params = [
+    req.params.name,
+    req.params.accommodation,
+    req.params.spot_list,
+  ];
+
+  db.query(
+    `INSERT INTO TripPlanner.plan (name, accommodation, spot_list) VALUES (?, ?, ?)`,
+    params,
     (err, rows, fields) => {
       res.send({ results: rows });
     }

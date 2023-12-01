@@ -26,7 +26,7 @@ struct WishPackage: View {
                 .foregroundColor(Color.black)
                 .font(.system(size: 22))
                 .bold()
-                .padding(.top, 10)
+                .padding(.top, 18)
                 .padding(.leading, 18)
                 .padding(.bottom, -5)
             LazyVGrid(columns: Array(repeating: GridItem(), count: 1), spacing: 4) {

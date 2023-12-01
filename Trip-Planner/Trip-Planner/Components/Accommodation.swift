@@ -35,11 +35,13 @@ struct Accommodation: View {
                     .padding(.bottom, -5)
                 Spacer()
                 NavigationLink(destination: AccommodationFull(results: results)) {
-                    Text("더보기")
+                    Text("more")
                         .font(.system(size: 18))
                         .padding(.trailing, -3)
                     Image(systemName: "chevron.right")
                         .font(.system(size: 18))
+                        .padding(.top, 2)
+                        .padding(.leading, -1)
                 }
                 .padding(.top, 10)
                 .padding(.trailing, 15)
