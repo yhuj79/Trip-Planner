@@ -1,13 +1,18 @@
 import SwiftUI
 import MapKit
 
+// 숙소 상세 정보를 표시하는 AccommodationDetail View
 struct AccommodationDetail: View {
+    // 숙소 정보를 저장하는 속성
     var accommodation: AccommodationResult
+    // 위시리스트 갱신 후 알림을 표시하기 위한 상태 속성
     @State private var showAlert = false
     
     var body: some View {
+        // 수직 ScrollView 안에 수직 LazyVStack을 사용하여 UI 구성
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 0) {
+                // 숙소 이미지를 비동기적으로 로드하여 표시
                 AsyncImage(url: accommodation.image_url)
                     .aspectRatio(contentMode: .fill)
                     .frame(width: UIScreen.main.bounds.width, height: 250)
@@ -17,6 +22,7 @@ struct AccommodationDetail: View {
                             .fill(Color.black.opacity(0.05))
                     )
                     .overlay(
+                        // 숙소 평점 표시
                         HStack {
                             HStack {
                                 Image(systemName: "star.fill")
@@ -34,6 +40,8 @@ struct AccommodationDetail: View {
                         }
                             .padding(10), alignment: .bottomTrailing
                     )
+                
+                // 숙소 정보 및 예약 링크 표시
                 HStack {
                     VStack(alignment: .leading) {
                         Text(accommodation.name)
@@ -54,9 +62,13 @@ struct AccommodationDetail: View {
                     }
                 }
                 .padding(15)
+                
+                // 숙소 설명 표시
                 Text(accommodation.description)
                     .font(.system(size: 16))
                     .padding(15)
+                
+                // 숙소 위치 및 가격 정보 표시
                 HStack {
                     HStack {
                         Image("\(accommodation.country)")
@@ -72,7 +84,9 @@ struct AccommodationDetail: View {
                     }
                     .background(Color.black.opacity(0.1))
                     .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    
                     Spacer()
+                    
                     VStack(alignment: .leading) {
                         Text("1박당 요금 시작가")
                             .font(.system(size: 12))
@@ -83,12 +97,16 @@ struct AccommodationDetail: View {
                     }
                 }
                 .padding(12)
+                
+                // 상품 안내 아이콘 및 텍스트 표시
                 HStack {
                     Image(systemName: "checkmark.seal.fill")
                     Text("상품 안내")
                 }
                 .foregroundColor(Color(hex: 0x5D5D5D))
                 .padding(10)
+                
+                // 상품 안내 세부 정보 표시
                 VStack(alignment: .leading) {
                     Text("아동 예약 시 아동에 대한 식사(라운지 이용 포함) 및 추가 침대는 불포함입니다.")
                     Spacer()
@@ -99,6 +117,8 @@ struct AccommodationDetail: View {
                 .font(.subheadline)
                 .foregroundColor(Color(hex: 0x5D5D5D))
                 .padding(15)
+                
+                // 지도 보기 링크 및 지도 표시
                 NavigationLink(destination: MapView(title: accommodation.name, latitude: accommodation.latitude, longitude: accommodation.longitude)) {
                     HStack {
                         Image(systemName: "map.circle")
@@ -110,6 +130,8 @@ struct AccommodationDetail: View {
                 Map(initialPosition: .region(region))
                     .frame(height: 250)
             }
+            
+            // 위시리스트 갱신 및 알림 처리
             .toolbar {
                 ToolbarItem {
                     Menu {
@@ -132,6 +154,7 @@ struct AccommodationDetail: View {
         }
     }
     
+    // 지도 표시를 위한 MKCoordinateRegion 계산
     private var region: MKCoordinateRegion {
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: accommodation.latitude, longitude: accommodation.longitude),
@@ -139,9 +162,11 @@ struct AccommodationDetail: View {
         )
     }
     
+    // 위시리스트 갱신을 위한 비동기 함수
     func updateWishAccommodation() {
         Task {
             do {
+                // 위시 갱신을 위한 API 호출
                 guard let url = URL(string: "http://localhost:5500/api/accommodation/wish/update/\(accommodation.wish == 1 ? 0 : 1)/\(accommodation.id)") else {
                     print("Invalid URL")
                     return
@@ -149,6 +174,7 @@ struct AccommodationDetail: View {
                 
                 let (_, meta) = try await URLSession.shared.data(from: url)
                 print(meta)
+                // 알림 표시
                 showAlert.toggle()
                 
             } catch {

@@ -1,9 +1,11 @@
 import SwiftUI
 
+// 관광지 목록 API 응답을 파싱하는 TSpotResponse 구조체 정의
 struct TSpotResponse: Codable {
     var results: [TSpotResult]
 }
 
+// 관광지 정보를 담는 TSpotResult 구조체 정의
 struct TSpotResult: Codable, Identifiable {
     let id: Int
     let name: String
@@ -17,11 +19,15 @@ struct TSpotResult: Codable, Identifiable {
     let wish: Int
 }
 
+// 관광지 목록을 표시하는 TSpot View
 struct TSpot: View {
+    // 관광지 목록을 담는 속성
     @State private var results = [TSpotResult]()
     
     var body: some View {
+        // 수직 LazyVStack을 사용하여 UI 구성
         LazyVStack(alignment: .leading) {
+            // 타이틀과 더보기 링크를 표시하는 HStack
             HStack {
                 Text("주요 관광지")
                     .foregroundColor(Color.black)
@@ -31,6 +37,7 @@ struct TSpot: View {
                     .padding(.leading, 15)
                     .padding(.bottom, -5)
                 Spacer()
+                // 더보기 링크를 클릭하면 모든 관광지를 표시하는 View로 이동
                 NavigationLink(destination: TSpotFull(results: results)) {
                     Text("more")
                         .font(.system(size: 18))
@@ -44,10 +51,14 @@ struct TSpot: View {
                 .padding(.trailing, 15)
                 .padding(.bottom, -5)
             }
+            // 수직 LazyVGrid을 사용하여 관광지 목록 표시
             LazyVGrid(columns: Array(repeating: GridItem(), count: 2), spacing: 4) {
                 ForEach(results.prefix(4)) { spot in
+                    // 각 관광지를 클릭하면 TSpotDetail로 이동하는 NavigationLink
                     NavigationLink(destination: TSpotDetail(spot: spot)) {
+                        // 관광지 이미지 및 정보를 표시하는 ZStack
                         ZStack(alignment: .topLeading) {
+                            // 비동기 이미지 로딩을 지원하는 AsyncImage
                             AsyncImage(url: spot.image_url)
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 180, height: 135)
@@ -57,6 +68,7 @@ struct TSpot: View {
                                         .fill(Color.black.opacity(0.25))
                                 )
                                 .overlay(
+                                    // 관광지 이름을 표시하는 VStack
                                     VStack(alignment: .leading) {
                                         Text(spot.name)
                                             .font(.system(size: 20))
@@ -67,6 +79,7 @@ struct TSpot: View {
                                     alignment: .topLeading
                                 )
                                 .overlay(
+                                    // 국가와 도시 이름을 표시하는 HStack
                                     HStack {
                                         Spacer()
                                         VStack {
@@ -88,6 +101,7 @@ struct TSpot: View {
             }
             .padding(9)
             .onAppear {
+                // 데이터 로딩을 위한 비동기 메서드 호출
                 Task {
                     await loadData()
                 }
@@ -95,6 +109,7 @@ struct TSpot: View {
         }
     }
     
+    // 관광지 목록을 서버에서 비동기로 로딩하는 메서드
     func loadData() async {
         guard let url = URL(string: "http://localhost:5500/api/tourist_spot") else {
             print("Invalid URL")
@@ -102,9 +117,11 @@ struct TSpot: View {
         }
         
         do {
+            // API에서 데이터를 비동기로 가져오기
             let (data, meta) = try await URLSession.shared.data(from: url)
             print(meta)
             do {
+                // JSON 데이터를 디코딩하여 결과를 업데이트
                 let decodedResponse = try JSONDecoder().decode(TSpotResponse.self, from: data)
                 DispatchQueue.main.async {
                     self.results = decodedResponse.results
