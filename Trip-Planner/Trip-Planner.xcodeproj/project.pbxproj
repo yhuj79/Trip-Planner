@@ -88,25 +88,13 @@
 		4652634D2B139A800050C6E9 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				4633B2AB2B0CE07600F4F14E /* Package.swift */,
-				4607C47F2B15D77A00F2E937 /* PackageFull.swift */,
-				46773FE12B1215E700D0514B /* PackageDetail.swift */,
-				46685BC82B1336C6003126B0 /* TSpot.swift */,
-				46E99BAA2B15DC24009BAF5D /* TSpotFull.swift */,
-				46685BCA2B1345AF003126B0 /* TSpotDetail.swift */,
-				465850F32B161C5B00A6C9F7 /* Accommodation.swift */,
-				465850F52B161EA100A6C9F7 /* AccommodationFull.swift */,
-				465850F72B161F4900A6C9F7 /* AccommodationDetail.swift */,
-				46773FE32B1253A000D0514B /* WishPackage.swift */,
-				4687DA492B13888400EC3C13 /* WishTSpot.swift */,
-				465850F92B16207900A6C9F7 /* WishAccommodation.swift */,
-				4680FBB02B19A28C009BD5E1 /* PlanList.swift */,
-				460EFAFF2B1753CF00516E93 /* PlanCreateAll.swift */,
-				46930B842B1A07AB00F1821A /* PlanDetail.swift */,
-				46D5835B2B1B9C74001F788F /* PlanRoutes.swift */,
-				46D583592B1B924A001F788F /* PlanRoutesMap.swift */,
 				4633B2AF2B0CE70200F4F14E /* SplashView.swift */,
 				46A5DF5E2B0B39F7008B9699 /* MapView.swift */,
+				46DF6EF02B1D8F9C008FA214 /* Package */,
+				46DF6EF12B1D8FB4008FA214 /* TouristSpot */,
+				46DF6EF22B1D8FD2008FA214 /* Accommodation */,
+				46DF6EF32B1D9002008FA214 /* WishList */,
+				46DF6EF42B1D901B008FA214 /* Plan */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -148,6 +136,58 @@
 				46A5DF572B0B2CAA008B9699 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		46DF6EF02B1D8F9C008FA214 /* Package */ = {
+			isa = PBXGroup;
+			children = (
+				4633B2AB2B0CE07600F4F14E /* Package.swift */,
+				4607C47F2B15D77A00F2E937 /* PackageFull.swift */,
+				46773FE12B1215E700D0514B /* PackageDetail.swift */,
+			);
+			path = Package;
+			sourceTree = "<group>";
+		};
+		46DF6EF12B1D8FB4008FA214 /* TouristSpot */ = {
+			isa = PBXGroup;
+			children = (
+				46685BC82B1336C6003126B0 /* TSpot.swift */,
+				46E99BAA2B15DC24009BAF5D /* TSpotFull.swift */,
+				46685BCA2B1345AF003126B0 /* TSpotDetail.swift */,
+			);
+			path = TouristSpot;
+			sourceTree = "<group>";
+		};
+		46DF6EF22B1D8FD2008FA214 /* Accommodation */ = {
+			isa = PBXGroup;
+			children = (
+				465850F32B161C5B00A6C9F7 /* Accommodation.swift */,
+				465850F52B161EA100A6C9F7 /* AccommodationFull.swift */,
+				465850F72B161F4900A6C9F7 /* AccommodationDetail.swift */,
+			);
+			path = Accommodation;
+			sourceTree = "<group>";
+		};
+		46DF6EF32B1D9002008FA214 /* WishList */ = {
+			isa = PBXGroup;
+			children = (
+				46773FE32B1253A000D0514B /* WishPackage.swift */,
+				4687DA492B13888400EC3C13 /* WishTSpot.swift */,
+				465850F92B16207900A6C9F7 /* WishAccommodation.swift */,
+			);
+			path = WishList;
+			sourceTree = "<group>";
+		};
+		46DF6EF42B1D901B008FA214 /* Plan */ = {
+			isa = PBXGroup;
+			children = (
+				4680FBB02B19A28C009BD5E1 /* PlanList.swift */,
+				460EFAFF2B1753CF00516E93 /* PlanCreateAll.swift */,
+				46930B842B1A07AB00F1821A /* PlanDetail.swift */,
+				46D5835B2B1B9C74001F788F /* PlanRoutes.swift */,
+				46D583592B1B924A001F788F /* PlanRoutesMap.swift */,
+			);
+			path = Plan;
 			sourceTree = "<group>";
 		};
 		46E99BAC2B15EFFC009BAF5D /* Tab */ = {

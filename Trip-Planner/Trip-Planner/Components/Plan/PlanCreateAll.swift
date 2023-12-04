@@ -54,7 +54,8 @@ struct PlanCreateAll: View {
     @State private var showErrorAlert = false
     
     // 선택된 국가 정보를 담을 변수
-    @State var selectedCountry: String = ""
+    @State var selectedACountry: String = ""
+    @State var selectedTCountry: String = ""
     
     // 부모 뷰에서 전달된 Modal 표시 여부를 관리하는 바인딩 변수
     @Binding var showModal: Bool
@@ -91,7 +92,7 @@ struct PlanCreateAll: View {
                         .padding(.bottom, -5)
                     
                     // 국가 선택 세그먼트 컨트롤
-                    Picker("Select Country", selection: $selectedCountry) {
+                    Picker("Select Country", selection: $selectedACountry) {
                         Text("전체").tag("")
                         Text("프랑스").tag("프랑스")
                         Text("영국").tag("영국")
@@ -105,7 +106,7 @@ struct PlanCreateAll: View {
                     
                     // 숙소 목록을 나타내는 LazyVGrid
                     LazyVGrid(columns: Array(repeating: GridItem(), count: 1), spacing: 4) {
-                        ForEach(results_a.filter { selectedCountry.isEmpty || $0.country == selectedCountry }) { accommodation in
+                        ForEach(results_a.filter { selectedACountry.isEmpty || $0.country == selectedACountry }) { accommodation in
                             // 각 숙소 항목을 나타내는 VStack
                             VStack {
                                 HStack {
@@ -171,7 +172,7 @@ struct PlanCreateAll: View {
                         .padding(.bottom, -5)
                     
                     // 국가 선택 세그먼트 컨트롤
-                    Picker("Select Country", selection: $selectedCountry) {
+                    Picker("Select Country", selection: $selectedTCountry) {
                         Text("전체").tag("")
                         Text("프랑스").tag("프랑스")
                         Text("영국").tag("영국")
@@ -185,7 +186,7 @@ struct PlanCreateAll: View {
                     
                     // 관광지 목록을 나타내는 LazyVGrid
                     LazyVGrid(columns: Array(repeating: GridItem(), count: 1), spacing: 4) {
-                        ForEach(results_t.filter { selectedCountry.isEmpty || $0.country == selectedCountry }) { spot in
+                        ForEach(results_t.filter { selectedTCountry.isEmpty || $0.country == selectedTCountry }) { spot in
                             // 각 관광지 항목을 나타내는 VStack
                             VStack {
                                 HStack {
@@ -314,8 +315,8 @@ struct PlanCreateAll: View {
                 var decodedResponse = try JSONDecoder().decode(PlanAllAccommodationResponse.self, from: data)
                 
                 // 국가가 선택되었을 경우 해당 국가의 데이터만 필터링
-                if !selectedCountry.isEmpty {
-                    decodedResponse.results = decodedResponse.results.filter { $0.country == selectedCountry }
+                if !selectedACountry.isEmpty {
+                    decodedResponse.results = decodedResponse.results.filter { $0.country == selectedACountry }
                 }
                 
                 let updatedResponse = decodedResponse
@@ -348,8 +349,8 @@ struct PlanCreateAll: View {
                 var decodedResponse = try JSONDecoder().decode(PlanAllTSpotResponse.self, from: data)
                 
                 // 국가가 선택되었을 경우 해당 국가의 데이터만 필터링
-                if !selectedCountry.isEmpty {
-                    decodedResponse.results = decodedResponse.results.filter { $0.country == selectedCountry }
+                if !selectedTCountry.isEmpty {
+                    decodedResponse.results = decodedResponse.results.filter { $0.country == selectedTCountry }
                 }
                 
                 let updatedResponse = decodedResponse
