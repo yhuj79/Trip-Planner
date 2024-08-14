@@ -23,7 +23,7 @@
 
 ### :gear: 개발 환경
 
-- XCode 15.0.1, iOS 17
+- XCode 15.0.1, iOS 17, SwiftUI
 - Visual Studio Code (MySQL: 2.18.1, Express: 4.18.2)
 
 ### :clipboard: 주요 적용 사항
@@ -38,6 +38,7 @@
 <br>
 
 - 패키지, 관광지, 숙소 리스트를 보여주는 뷰
+- AsyncImage를 통해 비동기 이미지 로딩 처리
 - 정보 웹페이지 링크, 지도 기능
 - 우측 상단 버튼으로 위시리스트 등록/삭제 가능
 
@@ -70,7 +71,7 @@
 <br>
 
 - 숙소와 관광지를 입력하여 하루 플랜을 구성
-- 최근접 이웃 알고리즘(Nearest Neighbor Algorithm)을 통해 선택한 관광지 동선을 계산
+- [최근접 이웃 알고리즘(Nearest Neighbor Algorithm)](https://yhuj79.github.io/Algorithm/240117)을 통해 선택한 관광지 동선을 계산
 
 <br>
 
@@ -83,7 +84,7 @@
 
 <br>
 
-- 웹뷰(WebView)를 통해 Google AI Service인 Bard로 연결
+- 웹뷰(WebView)를 통해 Google AI Service인 Bard로 연결 (현재 Gemini로 리브랜딩)
 
 <br>
 
@@ -94,6 +95,8 @@
 [https://developer.apple.com/tutorials/swiftui](https://developer.apple.com/tutorials/swiftui)
 
 [https://blog.devgenius.io/traveling-salesman-problem-nearest-neighbor-algorithm-solution-e78399d0ab0c](https://blog.devgenius.io/traveling-salesman-problem-nearest-neighbor-algorithm-solution-e78399d0ab0c)
+
+[https://yhuj79.github.io/Algorithm/240117](https://yhuj79.github.io/Algorithm/240117)
 
 [https://www.wikipedia.org](https://www.wikipedia.org)
 
